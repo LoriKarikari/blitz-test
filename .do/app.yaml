@@ -1,0 +1,36 @@
+databases:
+  - cluster_name: blitzdb
+    db_name: defaultdb
+    db_user: doadmin
+    engine: PG
+    name: blitzdb
+    production: true
+    version: "12"
+name: blitz
+region: nyc
+services:
+  - build_command: npx blitz db migrate && npx blitz build
+    environment_slug: node-js
+    envs:
+      - key: NODE_ENV
+        scope: RUN_AND_BUILD_TIME
+        value: production
+      - key: DATABASE_URL
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+        value: EV[1:3Ue3j7R6Z7JOBsdCLlZCPb/svMQjfZ1j:X9ms76D7moqYJixAgqR0fUrvwNalIXF2k1c/Z0qImTrM/TJT6+Ooa+q/1yYI4/6YwQqyVJujpf1dgi2XAJ4RnFzKnxKDJjiVAws99kckRSj8tbk5nzWns3hJYMjLkwsn5hYTQF+PDDQjdP7TqQRlIhLvWnul1AufsNKikljssjbPwzPcJaQkS8jNes56qEPYVlbBVg==]
+      - key: SESSION_SECRET_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: EV[1:i8xCUtoJN0xKf8X+aiYZXpHh8yr5ThjO:34IE4XhVrcIdftGDu0Bm6w1DsX4TWD7OjQ+VL28zpxIo98fM28bG+YBBcwJwrrd5BxjNYA0aB1kHA57W5OyLSj/n4bCSYQ5uzHk6Ay6RvJ8=]
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: LoriKarikari/blitz-test
+    http_port: 3000
+    instance_count: 1
+    instance_size_slug: professional-xs
+    name: blitz-test
+    routes:
+      - path: /
+    run_command: npx next start
